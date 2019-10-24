@@ -103,8 +103,7 @@ class Element(object):
         self.depends = self._get_element_set(
             os.path.join(path, 'element-deps'))
 
-        # Uncomment to see all elements and deps listed as they're found
-        # logger.debug("New element : %s", str(self))
+        logger.debug("New element : %s", str(self))
 
     def __eq__(self, other):
         return self.name == other.name

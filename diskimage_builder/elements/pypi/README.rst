@@ -1,8 +1,6 @@
 ====
 pypi
 ====
-
-====================
 Inject a PyPI mirror
 ====================
 
@@ -37,7 +35,7 @@ export DIB\_PYPI\_MIRROR\_URL\_1=http://site/pypi/
 export DIB\_PYPI\_MIRROR\_URL\_2=file:///tmp/pypi
 export DIB\_PIP\_RETRIES=0
 
-[devpi-server](https://pypi.python.org/pypi/devpi-server)
+[devpi-server](https://git.openstack.org/cgit/openstack-infra/pypi-mirro://pypi.python.org/pypi/devpi-server)
 can be useful in making a partial PyPI mirror suitable for building images. For
 instance:
 
@@ -59,5 +57,5 @@ the upstream can't be contacted.
 
 Note that this process only has the server running temporarily; see
 [Quickstart: Permanent install on
-server/laptop](https://devpi.net/docs/devpi/devpi/latest/+d/quickstart-server.html)
-guide from the devpi developers for more information on a more permanent setup.
+server/laptop](http://doc.devpi.net/latest/quickstart-server.html) guide from
+the devpi developers for more information on a more permanent setup.

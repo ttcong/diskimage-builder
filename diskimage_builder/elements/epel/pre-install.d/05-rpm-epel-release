@@ -8,7 +8,7 @@ set -o pipefail
 
 if [[ ${DISTRO_NAME} =~ "centos" ]]; then
     # Centos has "epel-release" in extras, which is default enabled.
-    ${YUM} install -y epel-release
+    yum install -y epel-release
 else
     # For RHEL, we have to scrape the download page to find the latest
     # release and install that
@@ -34,11 +34,7 @@ else
 fi
 
 if [ ${DIB_EPEL_DISABLED:-0} -ne 0 ]; then
-    if [[ ${YUM} == "dnf" ]]; then
-        dnf config-manager --set-disabled epel
-    else
-        yum-config-manager --disable epel
-    fi
+    yum-config-manager --disable epel
 fi
 
 DIB_EPEL_MIRROR=${DIB_EPEL_MIRROR:-}

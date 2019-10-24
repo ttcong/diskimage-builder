@@ -28,7 +28,7 @@ else
     exit 1
 fi
 
-if [[ ${YUM} == "dnf" ]]; then
+if [[ $DISTRO_NAME == "fedora" ]]; then
     mkdir -p /etc/dnf/vars
     echo $basearch > /etc/dnf/vars/basearch
     echo $arch > /etc/dnf/vars/arch
@@ -43,5 +43,5 @@ if [[ ${DISTRO_NAME} =~ "centos" ]]; then
     else
         contentdir=altarch
     fi
-    echo $contentdir > /etc/${YUM}/vars/contentdir
+    echo $contentdir > /etc/yum/vars/contentdir
 fi

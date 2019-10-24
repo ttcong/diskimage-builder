@@ -14,16 +14,12 @@
       "net-tools": "sys-apps/net-tools"
     },
     "suse": {
-      "dhcp-client": "dhcp-client",
-      "network-scripts": "wicked-service"
+      "dhcp-client": "dhcp-client"
     }
   },
   "release": {
     "fedora": {
       "29": {
-        "network-scripts": "network-scripts"
-      },
-      "30": {
         "network-scripts": "network-scripts"
       }
     }

@@ -37,19 +37,21 @@ function cleanup() {
 trap cleanup EXIT
 
 ZYPPER_TARGET_OPTS="--non-interactive --gpg-auto-import-keys --root $TARGET_ROOT"
-ZYPPER_INSTALL_SYSTEM_PYTHON="python3"
+ZYPPER_INSTALL_OPTS="--no-recommends"
 
-DIB_DISTRIBUTION_MIRROR=${DIB_DISTRIBUTION_MIRROR:-https://download.opensuse.org}
+DIB_DISTRIBUTION_MIRROR=${DIB_DISTRIBUTION_MIRROR:-http://download.opensuse.org}
 
 case ${DIB_RELEASE} in
-    # Old Leap releases
-    42*)
-        ZYPPER_REPOS="update=>${DIB_DISTRIBUTION_MIRROR}/update/leap/${DIB_RELEASE}/oss/ "
-        ZYPPER_REPOS+="oss=>${DIB_DISTRIBUTION_MIRROR}/distribution/leap/${DIB_RELEASE}/repo/oss/"
-        ZYPPER_INSTALL_SYSTEM_PYTHON="python"
+    # We are using "=>" as the assignment symbol since "@" "=" etc could be used in the URI itself.
+    # Remember, we can't export an array in bash so we use a string instead.
+    # Repo format: {name}=>{uri}
+    # Old openSUSE releases
+    13*)
+        ZYPPER_REPOS="update=>${DIB_DISTRIBUTION_MIRROR}/update/${DIB_RELEASE}/ "
+        ZYPPER_REPOS+="oss=>${DIB_DISTRIBUTION_MIRROR}/distribution/${DIB_RELEASE}/repo/oss/"
         ;;
     # New Leap releases
-    15*)
+    42*|15*)
         ZYPPER_REPOS="update=>${DIB_DISTRIBUTION_MIRROR}/update/leap/${DIB_RELEASE}/oss/ "
         ZYPPER_REPOS+="oss=>${DIB_DISTRIBUTION_MIRROR}/distribution/leap/${DIB_RELEASE}/repo/oss/"
         ;;
@@ -95,16 +97,9 @@ sudo mount -t devpts $(mount_dev_pts_options) devpts $TARGET_ROOT/dev/pts
 sudo mount -t sysfs none $TARGET_ROOT/sys
 
 # Install filesystem, base and useful tools
-sudo zypper ${ZYPPER_TARGET_OPTS} install --no-recommends filesystem
+sudo zypper ${ZYPPER_TARGET_OPTS} install ${ZYPPER_INSTALL_OPTS} filesystem
 # Install basic components in order
-sudo zypper ${ZYPPER_TARGET_OPTS} install \
-    ${DIB_OPENSUSE_PATTERNS} ${ZYPPER_INSTALL_SYSTEM_PYTHON} \
-    zypper sudo ca-certificates-mozilla
-
-# Remove the installed symlink, otherwise we wipe the resolv.conf
-# outside the target_root (as the link is not relative)
-# outside target_root
-test -L $TARGET_ROOT/etc/resolv.conf && sudo rm -f $TARGET_ROOT/etc/resolv.conf
+sudo zypper ${ZYPPER_TARGET_OPTS} install ${ZYPPER_INSTALL_OPTS} ${DIB_OPENSUSE_PATTERNS} python zypper sudo
 
 # Put in a dummy /etc/resolv.conf over the temporary one we used
 # to bootstrap.  systemd has a bug/feature [1] that it will assume

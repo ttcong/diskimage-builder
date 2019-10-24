@@ -1,1 +1,1 @@
-export DIB_RELEASE=7
+export DISTRO_NAME=rhel7

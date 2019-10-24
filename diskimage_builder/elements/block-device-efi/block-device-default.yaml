@@ -7,7 +7,7 @@
     partitions:
       - name: ESP
         type: 'EF00'
-        size: 550MiB
+        size: 12MiB
         mkfs:
           type: vfat
           mount:

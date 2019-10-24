@@ -7,11 +7,14 @@ fi
 set -eu
 set -o pipefail
 
+# Fix sudo: unable resolve hostname
+DIB_CLOUD_INIT_ETC_HOSTS=localhost
+
 # cloud-init May not actually be installed
 mkdir -p /etc/cloud/cloud.cfg.d
 
 if [ -n "${DIB_CLOUD_INIT_ETC_HOSTS:-}" ]; then
     dd of=/etc/cloud/cloud.cfg.d/10_etc_hosts.cfg << EOF
-manage_etc_hosts: $DIB_CLOUD_INIT_ETC_HOSTS
+    manage_etc_hosts: $DIB_CLOUD_INIT_ETC_HOSTS
 EOF
 fi
